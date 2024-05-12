@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encuesta de Evaluación de Proveedores</title>
+<style>
+  /* Estilos opcionales para mejorar la apariencia */
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .question {
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Encuesta de Evaluación de Proveedores</h1>
+
+<form id="encuestaForm">
+  <div class="question">
+    <label for="calidad">Calidad del producto/servicio:</label>
+    <input type="number" id="calidad" name="calidad" min="1" max="5" required>
+  </div>
+  <div class="question">
+    <label for="precio">Precio:</label>
+    <input type="number" id="precio" name="precio" min="1" max="5" required>
+  </div>
+  <div class="question">
+    <label for="atencion">Atención al cliente:</label>
+    <input type="number" id="atencion" name="atencion" min="1" max="5" required>
+  </div>
+  <button type="submit">Enviar Evaluación</button>
+</form>
+
+<div id="resultados">
+  <h2>Resultados acumulativos:</h2>
+  <p id="calidadPromedio">Promedio de calidad: <span>---</span></p>
+  <p id="precioPromedio">Promedio de precio: <span>---</span></p>
+  <p id="atencionPromedio">Promedio de atención al cliente: <span>---</span></p>
+</div>
+
+<script>
+  // Objeto para almacenar los resultados acumulativos
+  const resultados = {
+    cantidadEvaluaciones: 0,
+    totalCalidad: 0,
+    totalPrecio: 0,
+    totalAtencion: 0
+  };
+
+  // Función para manejar el envío del formulario
+  document.getElementById('encuestaForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evitar que el formulario se envíe
+
+    // Obtener los valores de la encuesta
+    const calidad = parseInt(document.getElementById('calidad').value);
+    const precio = parseInt(document.getElementById('precio').value);
+    const atencion = parseInt(document.getElementById('atencion').value);
+
+    // Actualizar los resultados acumulativos
+    resultados.cantidadEvaluaciones++;
+    resultados.totalCalidad += calidad;
+    resultados.totalPrecio += precio;
+    resultados.totalAtencion += atencion;
+
+    // Calcular promedios
+    const calidadPromedio = resultados.totalCalidad / resultados.cantidadEvaluaciones;
+    const precioPromedio = resultados.totalPrecio / resultados.cantidadEvaluaciones;
+    const atencionPromedio = resultados.totalAtencion / resultados.cantidadEvaluaciones;
+
+    // Actualizar la visualización de los resultados
+    document.getElementById('calidadPromedio').innerHTML = `Promedio de calidad: <span>${calidadPromedio.toFixed(2)}</span>`;
+    document.getElementById('precioPromedio').innerHTML = `Promedio de precio: <span>${precioPromedio.toFixed(2)}</span>`;
+    document.getElementById('atencionPromedio').innerHTML = `Promedio de atención al cliente: <span>${atencionPromedio.toFixed(2)}</span>`;
+
+    // Limpiar los campos del formulario
+    document.getElementById('encuestaForm').reset();
+  });
+</script>
+
+</body>
+</html>
